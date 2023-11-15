@@ -1,12 +1,13 @@
+import sqlite3
+
 from help import help
 from greetings import greetings
-from exit import finishRunning
+from exit import finish_running
 from dadata_request import request
 from change_settings import change_settings
-from login import login
 
-import sqlite3
-def Start():
+
+def start():
     con = sqlite3.connect("settings.db")
     cur = con.cursor()
     res = cur.execute("SELECT name FROM sqlite_master").fetchall()
@@ -20,16 +21,19 @@ def Start():
     greetings()
     #login(con)
     while True:
+        print("Type your command:")
         command, *args = input().split()
         match command:
             case "help" | "h":
                 help(*args)
             case "exit" | "e" | "q":
-                finishRunning(con=con)
+                finish_running(con=con)
             case "dadata" | "dd":
                 request(con, *args)
             case "settings" | "s":
                 change_settings(con)
             case _:
                 print("Command is not recognised. Type 'help' for help.")
-Start()
+                
+                
+start()
