@@ -1,6 +1,6 @@
 def help(*args):
     if len(args) > 1:
-        print(f"Too many args. Expected 1, got {len(args)}")
+        print(f"Too many args. Expected 0 or 1, got {len(args)}")
         return
     elif len(args) == 0:
         print("Type help command (e.g. help dd) for command description.\nCommands:\n'help' or 'h'\n'dd' or 'dadata'\n'settings' or 's'\n'exit' or 'q' or 'e'")

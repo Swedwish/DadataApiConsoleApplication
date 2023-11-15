@@ -12,7 +12,7 @@ def request(con: sqlite3.Connection,*args):
     lang = cur.execute("SELECT language FROM settings").fetchone()[0]
     dadata = Dadata(token)
     try:
-        result = dadata.suggest(name = "address",query=" ".join(args))
+        result = dadata.suggest(name = "address",query=" ".join(args), count=max_count, language=lang)
     except HTTPStatusError  as e:
         match e.response.status_code:
             case 404:
@@ -37,7 +37,10 @@ def request(con: sqlite3.Connection,*args):
             try:
                 if int(answer) in range(len(result)):
                     result = dadata.suggest(name="address", query=result[int(answer)]['unrestricted_value'], count=max_count, language=lang)
-                    print(f"""Geographical latitude of chosen location is {result[0]['data']['geo_lat']}\nGeographical longitude of chosen locantion is {result[0]['data']['geo_lon']}""")
+                    if result[0]['data']['geo_lat'] == None:
+                        print("Sorry, no geographical coordinates are availible for chosen address.")
+                    else:
+                        print(f"""Geographical latitude of chosen location is {result[0]['data']['geo_lat']}\nGeographical longitude of chosen locantion is {result[0]['data']['geo_lon']}""")
                     break
                 else:
                     print("I do not understand this input, pick one entry for more info by typing its' number or type dot symbol ('.') to go back.")

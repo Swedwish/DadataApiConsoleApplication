@@ -25,7 +25,7 @@ def Start():
             case "help" | "h":
                 help(*args)
             case "exit" | "e" | "q":
-                finishRunning()
+                finishRunning(con=con)
             case "dadata" | "dd":
                 request(con, *args)
             case "settings" | "s":
